@@ -51,9 +51,9 @@ var PointsAllocator = React.createClass({
 
   render() {
     return (
-      <div className="PointsAllocator">
+      <div className="points-allocator">
         <div className="points">
-          <p className="points-text">{this.state.remainingPoints}</p>
+          <header className="points-text">{this.state.remainingPoints}</header>
           <progress className="points-progress"
                     value={this.state.remainingPoints}
                     max={this.props.points} />

@@ -77,24 +77,7 @@ describe('PointsAllocator', () => {
                             onChange={fn} />);
 
     var range = instance.getDOMNode()
-      .getElementsByClassName('option')[0].getElementsByTagName('input')[0];
-
-    TestUtils.Simulate.change(range); 
-
-    expect(fn).toBeCalled();
-    expect(fn).toBeCalledWith({ remainingPoints: 10, rangePoints: [0] });
-  });
-  
-  it('handle range changes when callback is passed', () => {
-    var fn = jest.genMockFunction();
-    var instance = TestUtils
-      .renderIntoDocument(<PointsAllocator
-                            points={10}
-                            options={['Q']}
-                            onChange={fn} />);
-
-    var range = instance.getDOMNode()
-      .getElementsByClassName('option')[0].getElementsByTagName('input')[0];
+      .getElementsByClassName('option-range')[0];
 
     TestUtils.Simulate.change(range); 
 
@@ -109,7 +92,7 @@ describe('PointsAllocator', () => {
                             options={['Q']}
                             rangesSize={5} />);
     var range = instance.getDOMNode()
-      .getElementsByClassName('option')[0].getElementsByTagName('input')[0];
+      .getElementsByClassName('option-range')[0];
     expect(range.getAttribute('max')).toBe('5');
   });
 
@@ -122,12 +105,12 @@ describe('PointsAllocator', () => {
                                            options={['Q1', 'Q2', 'Q3']}
                                            initialRanges={initialRanges} />);
 
-    var optionsDOMNodes = instance.getDOMNode()
-      .getElementsByClassName('option');
+    var rangesDOMNodes = instance.getDOMNode()
+      .getElementsByClassName('option-range');
 
 
-    for(var index = 0; index < optionsDOMNodes.length; index++){
-      range = optionsDOMNodes[index].getElementsByTagName('input')[0];
+    for(var index = 0; index < rangesDOMNodes.length; index++){
+      range = rangesDOMNodes[index];
       expect(parseInt(range.value)).toBe(initialRanges[index]);
     }
   });

@@ -21,12 +21,6 @@ describe('PointsAllocator', () => {
     expect(!!PointsAllocator).toBe(true);
   });
 
-  // it('not be renderable without the required props', () => {
-  //   expect(() => {
-  //     TestUtils.renderIntoDocument(<PointsAllocator />);
-  //   }).toThrow();
-  // });
-
   it('be renderable when the props are passed correctly', () => {
     var instance = TestUtils
       .renderIntoDocument(<PointsAllocator
@@ -35,14 +29,26 @@ describe('PointsAllocator', () => {
     expect(TestUtils.isCompositeComponent(instance)).toBe(true);
   });
 
-  it('show the correct number of available points', () => {
-    var instance = TestUtils
-      .renderIntoDocument(<PointsAllocator points={10} options={[]} />);
+  it('show the correct number of available points correctly', () => {
 
-    var points = TestUtils
-      .findRenderedDOMComponentWithClass(instance, 'points');
+    // Instance with no points used
+    var instanceEmpty = TestUtils
+      .renderIntoDocument(<PointsAllocator points={10}
+                                           options={[]} />);
 
-    expect(points.getDOMNode().textContent).toBe('10');
+    // Instance with 5 points used in one option 
+    var instanceFilled = TestUtils
+      .renderIntoDocument(<PointsAllocator points={10}
+                                           options={['Q']}
+                                           initialRanges={[5]}/>);
+
+    var pointsEmpty = TestUtils
+      .findRenderedDOMComponentWithClass(instanceEmpty, 'points-text');
+    var pointsFilled = TestUtils
+      .findRenderedDOMComponentWithClass(instanceFilled, 'points-text');
+
+    expect(pointsEmpty.getDOMNode().textContent).toBe('10');
+    expect(pointsFilled.getDOMNode().textContent).toBe('5');
   });
 
   it('render all the options inside the Allocator', () => {
@@ -51,12 +57,78 @@ describe('PointsAllocator', () => {
       .renderIntoDocument(<PointsAllocator
                             points={10}
                             options={options} />);
-    var allocatorDomNode = TestUtils
+
+    var allocatorDOMNode = TestUtils
       .findRenderedDOMComponentWithClass(instance, 'allocator').getDOMNode(); 
 
     for(var index in options){
-      expect(allocatorDomNode.textContent)
+      expect(allocatorDOMNode.textContent)
         .toContain(options[index]);
+    }
+  });
+
+ 
+  it('handle range changes when callback is passed', () => {
+    var fn = jest.genMockFunction();
+    var instance = TestUtils
+      .renderIntoDocument(<PointsAllocator
+                            points={10}
+                            options={['Q']}
+                            onChange={fn} />);
+
+    var range = instance.getDOMNode()
+      .getElementsByClassName('option')[0].getElementsByTagName('input')[0];
+
+    TestUtils.Simulate.change(range); 
+
+    expect(fn).toBeCalled();
+    expect(fn).toBeCalledWith({ remainingPoints: 10, rangePoints: [0] });
+  });
+  
+  it('handle range changes when callback is passed', () => {
+    var fn = jest.genMockFunction();
+    var instance = TestUtils
+      .renderIntoDocument(<PointsAllocator
+                            points={10}
+                            options={['Q']}
+                            onChange={fn} />);
+
+    var range = instance.getDOMNode()
+      .getElementsByClassName('option')[0].getElementsByTagName('input')[0];
+
+    TestUtils.Simulate.change(range); 
+
+    expect(fn).toBeCalled();
+    expect(fn).toBeCalledWith({ remainingPoints: 10, rangePoints: [0] });
+  });
+
+  it('define correctly the rangesSizes', () => {
+    var instance = TestUtils
+      .renderIntoDocument(<PointsAllocator
+                            points={10}
+                            options={['Q']}
+                            rangesSize={5} />);
+    var range = instance.getDOMNode()
+      .getElementsByClassName('option')[0].getElementsByTagName('input')[0];
+    expect(range.getAttribute('max')).toBe('5');
+  });
+
+  it('loads the ranges with based on the initialRanges correctly', () => {
+    var range;
+    var initialRanges = [10, 20, 30];
+
+    var instance = TestUtils
+      .renderIntoDocument(<PointsAllocator points={60}
+                                           options={['Q1', 'Q2', 'Q3']}
+                                           initialRanges={initialRanges} />);
+
+    var optionsDOMNodes = instance.getDOMNode()
+      .getElementsByClassName('option');
+
+
+    for(var index = 0; index < optionsDOMNodes.length; index++){
+      range = optionsDOMNodes[index].getElementsByTagName('input')[0];
+      expect(parseInt(range.value)).toBe(initialRanges[index]);
     }
   });
 });

@@ -5,12 +5,10 @@
 var Example = React.createClass({
   render: function(){
     return (
-      <div>
-        <PointsAllocator points={100}
-                         initialRanges={[50, 50, 0]}
-                         rangesSize={50}
-                         options={['Study', 'Work', 'Sleep']} />
-      </div>
+      <PointsAllocator points={100}
+                       options={['Study', 'Work', 'Sleep']}
+                       initialRanges={[40, 40, 0]}
+                       rangesSize={50} />
     );
   }
 });

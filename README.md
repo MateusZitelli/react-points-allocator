@@ -1,4 +1,4 @@
-#React PointsAllocator
+#React PointsAllocator ![travis](https://travis-ci.org/MateusZitelli/react-points-allocator.svg?branch=master)
 
 > Simple React.js component to distribute a limited number of points between options.
 

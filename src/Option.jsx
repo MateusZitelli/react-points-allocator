@@ -4,7 +4,9 @@
 
 var React = require('react');
 
-var style = require('./Option.css');
+if (process.env.NODE_ENV !== 'test')
+  require('./Option.css');
+
 
 var Option = React.createClass({
   propTypes: {

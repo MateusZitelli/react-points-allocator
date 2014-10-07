@@ -10,6 +10,7 @@ var Allocator = require('./Allocator.jsx');
 var arrayForm = require('../utils/arrayForm.js');
 var sum = require('../utils/sum.js');
 
+
 // Define Array.form in case of it isn't supported by the browser yet
 arrayForm();
 

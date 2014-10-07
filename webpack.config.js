@@ -21,6 +21,10 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         loader: 'jsx-loader?harmony'
+      },
+      {
+        test: /\.(css)$/,
+        loader: 'style-loader!css-loader'
       }
     ]
   },

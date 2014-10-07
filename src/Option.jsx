@@ -4,6 +4,8 @@
 
 var React = require('react');
 
+var style = require('./Option.css');
+
 var Option = React.createClass({
   propTypes: {
     points: React.PropTypes.number,
@@ -17,6 +19,7 @@ var Option = React.createClass({
     return (
       <li className="allocator-option">
         <header className="option-title">{this.props.option}</header>
+        <span className="option-value">{this.props.points}</span>
         <input className="option-range" type="range"
                min="0"
                max={this.props.maxPoints}

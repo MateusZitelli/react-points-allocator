@@ -6,7 +6,7 @@ module.exports = {
   entry: __dirname + "/src/PointsAllocator.jsx",
   output: {
     path: __dirname + '/dist',
-    filename: 'react-points-allocator.js',
+    filename: 'react-points-allocator-with-style.js',
     library: 'PointsAllocator',
     libraryTarget: 'umd'
   },
@@ -33,7 +33,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'example')
       }
     })
   ],

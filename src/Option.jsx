@@ -4,7 +4,7 @@
 
 var React = require('react');
 
-if (process.env.NODE_ENV !== 'test')
+if (process.env.NODE_ENV === 'example')
   require('./Option.css');
 
 

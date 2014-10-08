@@ -1,6 +1,6 @@
 {
   "name": "react-points-allocator",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A react.js component to allocate points between differents specs.",
   "main": "dist/react-points-allocator.js",
   "scripts": {

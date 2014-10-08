@@ -1,5 +1,7 @@
 'use strict';
 
+var webpack = require('webpack');
+
 module.exports = {
   entry: __dirname + "/src/PointsAllocator.jsx",
   output: {

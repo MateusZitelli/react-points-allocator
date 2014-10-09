@@ -73,6 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  propTypes: {
 	    points: React.PropTypes.number.isRequired,
 	    options: React.PropTypes.array.isRequired,
+	    pointsSuffix: React.PropTypes.string,
 	    rangesSize: React.PropTypes.number,
 	    initialRanges: React.PropTypes.array,
 	    onChange: React.PropTypes.func
@@ -109,7 +110,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return (
 	      React.DOM.div({className: "points-allocator"}, 
 	        React.DOM.div({className: "points"}, 
-	          React.DOM.header({className: "points-text"}, this.state.remainingPoints), 
+	          React.DOM.header({className: "points-text"}, 
+	            this.state.remainingPoints, 
+	            React.DOM.span({className: "points-suffix"}, 
+	              this.props.pointsSuffix
+	            )
+	          ), 
 	          React.DOM.progress({className: "points-progress", 
 	                    value: this.state.remainingPoints, 
 	                    max: this.props.points})

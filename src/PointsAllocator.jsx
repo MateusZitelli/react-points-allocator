@@ -17,6 +17,7 @@ var PointsAllocator = React.createClass({
   propTypes: {
     points: React.PropTypes.number.isRequired,
     options: React.PropTypes.array.isRequired,
+    pointsSuffix: React.PropTypes.string,
     rangesSize: React.PropTypes.number,
     initialRanges: React.PropTypes.array,
     onChange: React.PropTypes.func
@@ -53,7 +54,12 @@ var PointsAllocator = React.createClass({
     return (
       <div className="points-allocator">
         <div className="points">
-          <header className="points-text">{this.state.remainingPoints}</header>
+          <header className="points-text">
+            {this.state.remainingPoints}
+            <span className="points-suffix">
+              {this.props.pointsSuffix}
+            </span>
+          </header>
           <progress className="points-progress"
                     value={this.state.remainingPoints}
                     max={this.props.points} />

@@ -25,7 +25,15 @@ describe('PointsAllocator', () => {
     var instance = TestUtils
       .renderIntoDocument(<PointsAllocator
                             points={10}
-                            options={['Q1','Q2']} />);
+                            options={['Q1','Q2']}
+                            rangesSize={[5, 5]}
+                            initialRanges={[2,3]}
+                            onChange={
+                              function(){
+                                console.log('change');
+                              }
+                            }/>);
+
     expect(TestUtils.isCompositeComponent(instance)).toBe(true);
   });
 
@@ -113,5 +121,18 @@ describe('PointsAllocator', () => {
       range = rangesDOMNodes[index];
       expect(parseInt(range.value)).toBe(initialRanges[index]);
     }
+  });
+
+  it('add custom text after points counter in header', function(){
+    var customSuffix = " points";
+    var instance = TestUtils
+      .renderIntoDocument(<PointsAllocator points={60}
+                                           options={['Q1']}
+                                           pointsSuffix={customSuffix} />); 
+
+    var pointHeaderDOMNode = instance.getDOMNode()
+      .getElementsByClassName('points-text')[0];
+
+    expect(pointHeaderDOMNode.textContent).toContain(customSuffix);
   });
 });

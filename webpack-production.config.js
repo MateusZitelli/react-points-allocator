@@ -6,7 +6,7 @@ module.exports = {
   entry: __dirname + "/src/PointsAllocator.jsx",
   output: {
     path: __dirname + '/dist',
-    filename: 'react-points-allocator.js',
+    filename: 'react-points-allocator.min.js',
     library: 'PointsAllocator',
     libraryTarget: 'umd'
   },

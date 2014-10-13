@@ -52,23 +52,26 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
+/*!*********************************!*\
+  !*** ./src/PointsAllocator.jsx ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	* @jsx React.DOM
 	*/
-
+	
 	'use strict';
-
-	var React = __webpack_require__(1);
-
-	var Allocator = __webpack_require__(2);
-	var arrayForm = __webpack_require__(3);
-	var sum = __webpack_require__(4);
-
+	
+	var React = __webpack_require__(/*! react */ 1);
+	
+	var Allocator = __webpack_require__(/*! ./Allocator.jsx */ 2);
+	var arrayForm = __webpack_require__(/*! ../utils/arrayForm.js */ 3);
+	var sum = __webpack_require__(/*! ../utils/sum.js */ 4);
+	
 	// Define Array.form in case of it isn't supported by the browser yet
 	arrayForm();
-
+	
 	var PointsAllocator = React.createClass({displayName: 'PointsAllocator',
 	  propTypes: {
 	    points: React.PropTypes.number.isRequired,
@@ -76,22 +79,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    pointsSuffix: React.PropTypes.string,
 	    rangesSize: React.PropTypes.number,
 	    initialRanges: React.PropTypes.array,
+	    notNull: React.PropTypes.bool,
 	    onChange: React.PropTypes.func
 	  },
-
+	
 	  componentWillMount:function() {
 	    if(!this.props.rangesSize){
 	      this.props.rangesSize = this.props.points;
 	    }
 	  },
-
+	
 	  getInitialState:function() {
 	    var initialState = {};
 	    var rangesSum;
-
+	
 	    if(!!this.props.initialRanges){
 	      rangesSum = sum(this.props.initialRanges);
-
+	
 	      initialState.rangePoints = this.props.initialRanges;
 	      initialState.remainingPoints = this.props.points - rangesSum; 
 	    }else{
@@ -99,13 +103,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      initialState.rangePoints = Array.from({
 	          length: this.props.options.length
 	        }, function()  {return 0;} );
-
+	
 	      initialState.remainingPoints = this.props.points;
 	    }
-
+	
 	    return initialState; 
 	  },
-
+	
 	  render:function() {
 	    return (
 	      React.DOM.div({className: "points-allocator"}, 
@@ -124,56 +128,64 @@ return /******/ (function(modules) { // webpackBootstrap
 	                   rangePoints: this.state.rangePoints, 
 	                   options: this.props.options, 
 	                   onChange: this._onRangeChange, 
-	                   maxPoints: this.props.rangesSize})
+	                   maxPoints: this.props.rangesSize, 
+	                   notNull: this.props.notNull})
 	      )
 	    );
 	  },
-
+	
 	  _onRangeChange:function(rangeKey, value) {
 	    var newState = this.state;
-
+	
 	    newState.rangePoints[rangeKey] = value;
 	    newState.remainingPoints = this.props.points - sum(newState.rangePoints); 
-
+	
 	    this.setState(newState);
-
+	
 	    if(this.props.onChange){
 	      this.props.onChange(newState);
 	    }
 	  }
-
+	
 	});
-
+	
 	module.exports = PointsAllocator;
 
 
 /***/ },
 /* 1 */
+/*!**************************************************************************************!*\
+  !*** external {"root":"React","commonjs":"react","commonjs2":"react","amd":"react"} ***!
+  \**************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
 /***/ },
 /* 2 */
+/*!***************************!*\
+  !*** ./src/Allocator.jsx ***!
+  \***************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * @jsx React.DOM
 	 */
-
-	var React = __webpack_require__(1);
-
-	var Option = __webpack_require__(5);
-
+	
+	var React = __webpack_require__(/*! react */ 1);
+	
+	var Option = __webpack_require__(/*! ./Option.jsx */ 5);
+	
 	var Allocator = React.createClass({displayName: 'Allocator',
 	  propTypes: {
 	    options: React.PropTypes.array.isRequired,
 	    remainingPoints: React.PropTypes.number.isRequired,
 	    maxPoints: React.PropTypes.number.isRequired,
 	    rangePoints: React.PropTypes.array.isRequired,
+	    notNull: React.PropTypes.bool,
 	    onChange: React.PropTypes.func
 	  },
-
+	
 	  render:function() {
 	    var optionsDom = this.props.options.map(function(option, i)  
 	      {return Option({option: option, 
@@ -181,23 +193,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	              onChange: this.props.onChange, 
 	              maxPoints: this.props.maxPoints, 
 	              points: this.props.rangePoints[i], 
+	              notNull: this.props.notNull, 
 	              key: i});}.bind(this)
 	    );
-
+	
 	    return (
 	      React.DOM.ul({className: "allocator"}, 
 	        optionsDom
 	      )
 	    );
 	  }
-
+	
 	});
-
+	
 	module.exports = Allocator;
 
 
 /***/ },
 /* 3 */
+/*!****************************!*\
+  !*** ./utils/arrayForm.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Production steps of ECMA-262, Edition 6, 22.1.2.1
@@ -220,20 +236,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var len = toInteger(value);
 	        return Math.min(Math.max(len, 0), maxSafeInteger);
 	      };
-
+	
 	      // The length property of the from method is 1.
 	      return function from(arrayLike/*, mapFn, thisArg */) {
 	        // 1. Let C be the this value.
 	        var C = this;
-
+	
 	        // 2. Let items be ToObject(arrayLike).
 	        var items = Object(arrayLike);
-
+	
 	        // 3. ReturnIfAbrupt(items).
 	        if (arrayLike == null) {
 	          throw new TypeError("Array.from requires an array-like object - not null or undefined");
 	        }
-
+	
 	        // 4. If mapfn is undefined, then let mapping be false.
 	        var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
 	        var T;
@@ -243,22 +259,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	          if (!isCallable(mapFn)) {
 	            throw new TypeError('Array.from: when provided, the second argument must be a function');
 	          }
-
+	
 	          // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
 	          if (arguments.length > 2) {
 	            T = arguments[2];
 	          }
 	        }
-
+	
 	        // 10. Let lenValue be Get(items, "length").
 	        // 11. Let len be ToLength(lenValue).
 	        var len = toLength(items.length);
-
+	
 	        // 13. If IsConstructor(C) is true, then
 	        // 13. a. Let A be the result of calling the [[Construct]] internal method of C with an argument list containing the single item len.
 	        // 14. a. Else, Let A be ArrayCreate(len).
 	        var A = isCallable(C) ? Object(new C(len)) : new Array(len);
-
+	
 	        // 16. Let k be 0.
 	        var k = 0;
 	        // 17. Repeat, while k < len… (also steps a - h)
@@ -280,50 +296,59 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }());
 	  }
 	}
-
+	
 	module.exports = arrayForm;
 
 
 /***/ },
 /* 4 */
+/*!**********************!*\
+  !*** ./utils/sum.js ***!
+  \**********************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var sum = function(array){
 	  return array.reduce(function(prev, curr)  {return prev + curr;}, 0);
 	};
-
+	
 	module.exports = sum;
 
 
 /***/ },
 /* 5 */
+/*!************************!*\
+  !*** ./src/Option.jsx ***!
+  \************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * @jsx React.DOM
 	 */
-
-	var React = __webpack_require__(1);
-
+	
+	var React = __webpack_require__(/*! react */ 1);
+	
 	if (true)
-	  __webpack_require__(6);
-
-
+	  __webpack_require__(/*! ./Option.css */ 6);
+	
+	
 	var Option = React.createClass({displayName: 'Option',
 	  propTypes: {
 	    points: React.PropTypes.number,
 	    option: React.PropTypes.string.isRequired,
 	    remainingPoints: React.PropTypes.number,
 	    maxPoints: React.PropTypes.number.isRequired,
-	    onChange: React.PropTypes.func
+	    onChange: React.PropTypes.func,
+	    notNull: React.PropTypes.bool
 	  },
-
+	
 	  render:function() {
+	    var inputClassName = "option-range " +  
+	      (!!this.props.notNull && this.props.points === 0 ? "alert" : "" );
 	    return (
 	      React.DOM.li({className: "allocator-option"}, 
 	        React.DOM.header({className: "option-title"}, this.props.option), 
 	        React.DOM.span({className: "option-value"}, this.props.points), 
-	        React.DOM.input({className: "option-range", type: "range", 
+	        React.DOM.input({className: inputClassName, type: "range", 
 	               min: "0", 
 	               max: this.props.maxPoints, 
 	               value: this.props.points, 
@@ -331,35 +356,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	      )
 	    );
 	  },
-
+	
 	  _notifyChange:function(e) {
 	    var newPoints = parseInt(e.currentTarget.value);
-
+	
 	    // Don't let use more points that those that are available
 	    if(newPoints - this.props.points > this.props.remainingPoints){
 	      newPoints = this.props.points + this.props.remainingPoints;
 	    }
-
+	
 	    if(this.props.onChange){
 	      this.props.onChange(this.props.key, newPoints); 
 	    }
 	  }
 	});
-
+	
 	module.exports = Option;
 
 
 /***/ },
 /* 6 */
+/*!************************!*\
+  !*** ./src/Option.css ***!
+  \************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
-
+	
 	// load the styles
-	var content = __webpack_require__(7);
+	var content = __webpack_require__(/*! !./~/css-loader!./src/Option.css */ 7);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(8)(content);
+	var update = __webpack_require__(/*! ./~/style-loader/addStyles.js */ 8)(content);
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -374,13 +402,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 7 */
+/*!***************************************!*\
+  !*** ./~/css-loader!./src/Option.css ***!
+  \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(9)();
+	exports = module.exports = __webpack_require__(/*! ./~/css-loader/cssToString.js */ 9)();
 	exports.push([module.id, "input[type=range] {\n    /*removes default webkit styles*/\n    -webkit-appearance: none;\n    \n    /*fix for FF unable to apply focus style bug */\n    border: 1px solid white;\n    \n    /*required for proper track sizing in FF*/\n    width: 300px;\n}\ninput[type=range]::-webkit-slider-runnable-track {\n    width: 300px;\n    height: 5px;\n    background: #ddd;\n    border: none;\n    border-radius: 3px;\n}\ninput[type=range]::-webkit-slider-thumb {\n    -webkit-appearance: none;\n    border: none;\n    height: 16px;\n    width: 16px;\n    border-radius: 50%;\n    background: goldenrod;\n    margin-top: -4px;\n}\ninput[type=range]:focus {\n    outline: none;\n}\ninput[type=range]:focus::-webkit-slider-runnable-track {\n    background: #ccc;\n}\ninput[type=range]::-moz-range-track {\n    width: 300px;\n    height: 5px;\n    background: #ddd;\n    border: none;\n    border-radius: 3px;\n}\ninput[type=range]::-moz-range-thumb {\n    border: none;\n    height: 16px;\n    width: 16px;\n    border-radius: 50%;\n    background: goldenrod;\n}\n\n/*hide the outline behind the border*/\ninput[type=range]:-moz-focusring{\n    outline: 1px solid white;\n    outline-offset: -1px;\n}\ninput[type=range]::-ms-track {\n    width: 300px;\n    height: 16px;\n    background: #ddd;\n    border: none;\n    border-radius: 10px;\n    /*remove default tick marks*/\n    color: transparent;\n}\ninput[type=range]::-ms-fill-lower {\n    outline: none;\n    background: #777;\n    border-radius: 10px 0 0 10px;\n}\ninput[type=range]::-ms-thumb {\n    border: none;\n    height: 16px;\n    width: 16px;\n    border-radius: 50%;\n    background: goldenrod;\n}\ninput[type=range]:focus::-ms-track {\n    background: #ccc;\n}\ninput[type=range]:focus::-ms-fill-lower {\n    background: #888;\n}\n", ""]);
 
 /***/ },
 /* 8 */
+/*!*************************************!*\
+  !*** ./~/style-loader/addStyles.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -388,9 +422,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		Author Tobias Koppers @sokra
 	*/
 	var stylesInDom = {};
-
+	
 	module.exports = function(list) {
-		if(false) {
+		if(true) {
 			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
 		}
 		var styles = listToStyles(list);
@@ -417,7 +451,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		};
 	}
-
+	
 	function addStylesToDom(styles) {
 		for(var i = 0; i < styles.length; i++) {
 			var item = styles[i];
@@ -439,7 +473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}
 	}
-
+	
 	function listToStyles(list) {
 		var styles = [];
 		var newStyles = {};
@@ -457,7 +491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 		return styles;
 	}
-
+	
 	function addStyle(obj) {
 		var styleElement = document.createElement("style");
 		var head = document.head || document.getElementsByTagName("head")[0];
@@ -474,12 +508,12 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		};
 	};
-
+	
 	function applyToTag(styleElement, obj) {
 		var css = obj.css;
 		var media = obj.media;
 		// var sourceMap = obj.sourceMap;
-
+	
 		// No browser support
 		// if(sourceMap && typeof btoa === "function") {
 			// try {
@@ -497,12 +531,15 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 			styleElement.appendChild(document.createTextNode(css));
 		}
-
+	
 	}
 
 
 /***/ },
 /* 9 */
+/*!*************************************!*\
+  !*** ./~/css-loader/cssToString.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function() {
@@ -525,3 +562,5 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ }
 /******/ ])
 });
+
+//# sourceMappingURL=react-points-allocator-with-style.js.map

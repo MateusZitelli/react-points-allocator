@@ -14,15 +14,18 @@ var Option = React.createClass({
     option: React.PropTypes.string.isRequired,
     remainingPoints: React.PropTypes.number,
     maxPoints: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func
+    onChange: React.PropTypes.func,
+    notNull: React.PropTypes.bool
   },
 
   render() {
+    var inputClassName = "option-range " +  
+      (!!this.props.notNull && this.props.points === 0 ? "alert" : "" );
     return (
       <li className="allocator-option">
         <header className="option-title">{this.props.option}</header>
         <span className="option-value">{this.props.points}</span>
-        <input className="option-range" type="range"
+        <input className={inputClassName} type="range"
                min="0"
                max={this.props.maxPoints}
                value={this.props.points}

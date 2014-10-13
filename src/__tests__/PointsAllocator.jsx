@@ -4,11 +4,13 @@
 
 'use strict';
 
+
 jest.autoMockOff();
 
+var hasClass = require('../../utils/hasClass.js'); 
 describe('PointsAllocator', () => {
   var React;
-  var TestUtils;
+  var TestUtils; 
   var PointsAllocator;
 
   beforeEach(() => {
@@ -134,5 +136,20 @@ describe('PointsAllocator', () => {
       .getElementsByClassName('points-text')[0];
 
     expect(pointHeaderDOMNode.textContent).toContain(customSuffix);
+  });
+
+  it('add alert class when notNull prop is true and input value is null',
+  function() {
+    var instance = TestUtils
+      .renderIntoDocument(<PointsAllocator points={60}
+                                           options={['Q1', 'Q2']}
+                                           initialRanges={[0, 10]}
+                                           notNull={true} />); 
+    
+    var rangesDOMNodes = instance.getDOMNode()
+      .getElementsByClassName('option-range');
+    console.log(hasClass(rangesDOMNodes[0], 'alert'));
+    expect(hasClass(rangesDOMNodes[0], 'alert')).toBeTruthy(); 
+    expect(hasClass(rangesDOMNodes[1], 'alert')).toBeFalsy(); 
   });
 });

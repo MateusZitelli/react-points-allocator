@@ -12,6 +12,7 @@ var Allocator = React.createClass({
     remainingPoints: React.PropTypes.number.isRequired,
     maxPoints: React.PropTypes.number.isRequired,
     rangePoints: React.PropTypes.array.isRequired,
+    notNull: React.PropTypes.bool,
     onChange: React.PropTypes.func
   },
 
@@ -22,6 +23,7 @@ var Allocator = React.createClass({
               onChange={this.props.onChange}
               maxPoints={this.props.maxPoints}
               points={this.props.rangePoints[i]}
+              notNull={this.props.notNull}
               key={i} />
     );
 

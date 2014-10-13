@@ -2,6 +2,24 @@
 
 > Simple React.js component to distribute a limited number of points between options.
 
+##Install
+
+```sh
+$ npm install react-points-allocator --save-dev
+```
+
+##Build
+
+For a production version (minified): 
+```sh
+$ npm run build
+```
+
+Or for development (unminified and with source-maps):
+```sh
+$ npm run dev-build
+```
+
 ##Usage
 Generate an allocator like this:
 
@@ -10,6 +28,8 @@ Generate an allocator like this:
 Using the component with those propos:
 
 ```javascript
+var PointsAllocator = require('react-points-allocator');
+
 <PointsAllocator 
   // The total number of available points
   points={100}

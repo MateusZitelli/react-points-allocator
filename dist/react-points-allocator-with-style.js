@@ -79,6 +79,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    pointsSuffix: React.PropTypes.string,
 	    rangesSize: React.PropTypes.number,
 	    initialRanges: React.PropTypes.array,
+	    hints: React.PropTypes.array,
 	    notNull: React.PropTypes.bool,
 	    onChange: React.PropTypes.func
 	  },
@@ -129,6 +130,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                   options: this.props.options, 
 	                   onChange: this._onRangeChange, 
 	                   maxPoints: this.props.rangesSize, 
+	                   hints: this.props.hints, 
 	                   notNull: this.props.notNull})
 	      )
 	    );
@@ -182,6 +184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    remainingPoints: React.PropTypes.number.isRequired,
 	    maxPoints: React.PropTypes.number.isRequired,
 	    rangePoints: React.PropTypes.array.isRequired,
+	    hints: React.PropTypes.array,
 	    notNull: React.PropTypes.bool,
 	    onChange: React.PropTypes.func
 	  },
@@ -193,6 +196,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              onChange: this.props.onChange, 
 	              maxPoints: this.props.maxPoints, 
 	              points: this.props.rangePoints[i], 
+	              hint: this.props.hints ? this.props.hints[i] : null, 
 	              notNull: this.props.notNull, 
 	              key: i});}.bind(this)
 	    );
@@ -337,6 +341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    option: React.PropTypes.string.isRequired,
 	    remainingPoints: React.PropTypes.number,
 	    maxPoints: React.PropTypes.number.isRequired,
+	    hint: React.PropTypes.string,
 	    onChange: React.PropTypes.func,
 	    notNull: React.PropTypes.bool
 	  },
@@ -346,8 +351,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      (!!this.props.notNull && this.props.points === 0 ? "alert" : "" );
 	    return (
 	      React.DOM.li({className: "allocator-option"}, 
-	        React.DOM.header({className: "option-title"}, this.props.option), 
+	        React.DOM.span({className: "option-title"}, this.props.option), 
 	        React.DOM.span({className: "option-value"}, this.props.points), 
+	        React.DOM.span({className: "option-hint"}, this.props.hint), 
 	        React.DOM.input({className: inputClassName, type: "range", 
 	               min: "0", 
 	               max: this.props.maxPoints, 

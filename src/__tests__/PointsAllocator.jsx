@@ -148,8 +148,27 @@ describe('PointsAllocator', () => {
     
     var rangesDOMNodes = instance.getDOMNode()
       .getElementsByClassName('option-range');
-    console.log(hasClass(rangesDOMNodes[0], 'alert'));
+
     expect(hasClass(rangesDOMNodes[0], 'alert')).toBeTruthy(); 
     expect(hasClass(rangesDOMNodes[1], 'alert')).toBeFalsy(); 
+  });
+
+  it('show hints list passed as props', () => {
+    var hintText;
+    var hints = ['This question is about...', 'and that is about...'];
+    var instance = TestUtils
+      .renderIntoDocument(<PointsAllocator points={60}
+                                           options={['Q1', 'Q2']}
+                                           hints={hints} />); 
+    
+    var options = instance.getDOMNode()
+      .getElementsByClassName('allocator-option');
+
+    for(var i = 0; i < options.length; i++){
+      hintText = options[i]
+        .getElementsByClassName('option-hint')[0].textContent;
+
+      expect(hintText).toBe(hints[i]);
+    }
   });
 });

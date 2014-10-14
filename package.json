@@ -1,11 +1,11 @@
 {
   "name": "react-points-allocator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A react.js component to allocate points between differents specs.",
   "main": "dist/react-points-allocator.js",
   "scripts": {
-    "test": "NODE_ENV=test jest ./src/",
-    "build": "webpack --config webpack-production.config.js -p",
+    "test": "NODE_ENV=test jest",
+    "build": "webpack -p --config webpack-production.config.js",
     "dev-build": "webpack -d --config webpack-development.config.js"
   },
   "repository": {

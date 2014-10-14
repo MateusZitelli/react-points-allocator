@@ -20,6 +20,7 @@ var PointsAllocator = React.createClass({
     pointsSuffix: React.PropTypes.string,
     rangesSize: React.PropTypes.number,
     initialRanges: React.PropTypes.array,
+    hints: React.PropTypes.array,
     notNull: React.PropTypes.bool,
     onChange: React.PropTypes.func
   },
@@ -70,6 +71,7 @@ var PointsAllocator = React.createClass({
                    options={this.props.options}
                    onChange={this._onRangeChange}
                    maxPoints={this.props.rangesSize}
+                   hints={this.props.hints}
                    notNull={this.props.notNull} />
       </div>
     );
